@@ -12,10 +12,12 @@ train_transform = transforms.Compose([
     transforms.RandomResizedCrop(32, scale=(0.8, 1.0)),
     transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
     transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))   
 ])
 
 test_transform = transforms.Compose([
     transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))   
 ])
 
 train_loader = torch.utils.data.DataLoader(
@@ -170,6 +172,8 @@ def test_random_image(model, loader, device):
     output = model(image)
     _, predicted = torch.max(output, 1)
     predicted = predicted.item()
+
+    imshow(image.cpu().squeeze())
     print(f'Predicted: {predicted}, Actual: {label}')
 
 test_random_image(model, test_loader, device)
